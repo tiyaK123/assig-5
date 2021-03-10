@@ -409,40 +409,32 @@ bool ThreadedBSTree::contains(const int &anEntry) const
 	return false;
 }
 
-TreeNode *ThreadedBSTree::getleftMostNode()
-{
-	TreeNode *temp = root;
-	while (!temp->lThread)
-	{
-		cout << "1\n";
-		temp = temp->leftChild;
-	}
-	return temp;
-}
-
 //------------------------------------------------------------
 // Public Traversals Section.
 //------------------------------------------------------------
 
-void ThreadedBSTree::inorderTraverse(TreeNode *root)
-{
-	//TreeNode* root = root;
-	if (root == nullptr)
-	{
-		return;
-	}
-	inorderTraverse(root->leftChild);
-	cout << root->data << " ";
-	inorderTraverse(root->rightChild);
-}
-
 void ThreadedBSTree::displayTBSTreeInOrder(TreeNode *root)
 {
-	TreeNode *curr = getleftMostNode();
+	TreeNode *curr = root;
+	while (curr->lThread == false)
+	{
+		curr = curr->leftChild;
+	}
+
 	while (curr != nullptr)
 	{
 		cout << curr->data << " ";
-		curr = curr->rightChild;
+		if (curr->rThread == true)
+		{
+			curr = curr->rightChild;
+		}
+		else
+		{
+			curr = curr->rightChild;
+			while (curr->lThread == false)
+			{
+				curr = curr->leftChild;
+			}
+		}
 	}
-	//displayTBSTreeInOrder(root->rightChild);
 }

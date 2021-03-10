@@ -46,10 +46,14 @@ private:
 public:
    ThreadedBSTree();
    ~ThreadedBSTree();
-   TreeNode* copyTbst(TreeNode *other);
+   TreeNode *copyTbst(TreeNode *other);
    void helper(TreeNode *node, TreeNode *otherNode);
    TreeNode *findNode(TreeNode *root, int &item);
+   void removeEven();
    bool remove(int item);
+   bool removeSearch(TreeNode *parent, TreeNode *tr, int &item);
+   void removeNode(TreeNode *node, TreeNode *parent);
+   int removeLeftMostNode(TreeNode *node);
    void enterNumber(int num);
    //void add(int item);                    // for loop for adding n number
    void insert(TreeNode *root, int item); // insert nuber in Tree
@@ -57,14 +61,11 @@ public:
    void clear(TreeNode *root);
    void display();
    bool contains(const int &item) const;
-   void add(vector<int> v, int nums,int low, int high);
-   void numbers( int num);
-   TreeNode *getleftMostNode();
+   void add(vector<int> v, int nums, int low, int high);
+   void numbers(int num);
    //------------------------------------------------------------
    // Public Traversals Section.
    //------------------------------------------------------------
-   //void preorderTraverse(TreeNode *root);
-   void inorderTraverse(TreeNode *root); // normal inoderTraversal
-   //void postorderTraverse(TreeNode *root);
+
    void displayTBSTreeInOrder(TreeNode *root); // Thread inordertraversal
 };

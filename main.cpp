@@ -11,17 +11,22 @@ void test()
     // tree.add(20);
     tree.display();
 
-    // tree.remove(1);
-    // tree.remove(10);
-    // tree.remove(8);
-    // tree.remove(4);
-    // tree.remove(5);
-    tree.display();
+    tree.remove(1);
+    tree.remove(2);
+    tree.remove(3);
+    tree.remove(6);
+    tree.remove(10);
+    tree.remove(7);
+    tree.remove(8);
+    tree.remove(4);
+    tree.remove(5);
+    tree.remove(9);
+    // tree.display();
 }
 
 int main()
 {
-    ThreadedBSTree *bst = new ThreadedBSTree();
+    // ThreadedBSTree *bst = new ThreadedBSTree();
     test();
     //TreeNode* root = nullptr;
     //bst->display();
