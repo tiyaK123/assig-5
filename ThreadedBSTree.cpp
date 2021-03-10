@@ -1,0 +1,304 @@
+#include "ThreadedBSTree.h"
+#include <iostream>
+#include <algorithm>
+#include <cmath>
+#include <vector>
+using namespace std;
+
+// ostream &operator<<(std::ostream &out, const ThreadedBSTree &bts)
+// {
+// 	return out;
+// }
+ThreadedBSTree::ThreadedBSTree()
+{
+	root = nullptr;
+}
+ThreadedBSTree::~ThreadedBSTree()
+{
+	//clear(root);
+}
+ TreeNode* ThreadedBSTree::copyTbst(TreeNode *other){
+	if(other == NULL){
+		return nullptr;
+	} else{
+		TreeNode* node = new TreeNode;
+		node->data = other->data;
+		other->leftChild = copyTbst(node->leftChild);
+		other->rightChild = copyTbst(node->rightChild);
+		return node;
+	}
+
+}
+void ThreadedBSTree::helper(TreeNode *node, TreeNode *otherNode){
+	
+}
+void ThreadedBSTree::clear(TreeNode *root)
+{
+	TreeNode *node = root;
+	if (root)
+	{
+		clear(node->leftChild);
+		clear(node->rightChild);
+		delete node;
+		node = NULL;
+	}
+}
+TreeNode::TreeNode()
+{
+	leftChild = nullptr;
+	rightChild = nullptr;
+	lThread = true;
+	rThread = true;
+}
+TreeNode::TreeNode(const int &nodeItem, TreeNode *left, TreeNode *right)
+{
+	data = nodeItem;
+	leftChild = left;
+	rightChild = right;
+}
+TreeNode::TreeNode(int item)
+{
+	TreeNode *node = new TreeNode();
+	node->data = item;
+	node->leftChild = nullptr;
+	node->rightChild = nullptr;
+	node->lThread = true;
+	node->rThread = true;
+}
+
+// retrieve Node
+// not sure do we need this methods
+TreeNode *ThreadedBSTree::findNode(TreeNode *root, int &item)
+{
+	//return treenode;
+	if (root == nullptr)
+	{
+		return nullptr;
+	}
+	if (root->data == item)
+	{
+		return root;
+	}
+	else if (item > root->data)
+	{
+		if (!root->rThread)
+		{
+			return findNode(root->rightChild, item);
+		}
+	}
+	else if (item < root->data)
+	{
+		if (!root->lThread)
+		{
+			return findNode(root->leftChild, item);
+		}
+	}
+	return nullptr;
+}
+
+bool ThreadedBSTree::remove(int item)
+{
+	return true;
+}
+
+// this method is for reading input number from user
+void ThreadedBSTree::enterNumber(int num)
+{
+	if (num <= 0)
+	{
+		cout << "Number can't be negative number and 0.";
+		cout << " Please enter vaild number.";
+		cout << endl;
+	}
+	else
+	{
+		cout << "Correct Number." << endl;
+		// add(num);
+	}
+}
+
+//need help to work on message from Tiffany
+void ThreadedBSTree::add(vector <int> v, int nums,int low, int high){
+  if(low > high) {
+            return;
+        }
+        int mid = low + (high - low)/2;
+        int check = v[mid];
+        
+        insert(root, check);
+		cout << check << " ";
+        add(v,nums, low, mid - 1);
+       
+        add(v,nums, mid + 1, high);
+     
+}
+void ThreadedBSTree::numbers( int num){
+  vector <int> v;
+  int x = 1;
+  for(int i = 0; i < num; i++){
+
+    v.push_back(x);
+    x++;
+  }
+  int end = v.size() - 1;
+  cout << end << "-end\n";
+  add(v,num,0,end);
+}
+//
+void ThreadedBSTree::insert(TreeNode *tr, int item){
+	if (root == nullptr)
+	{
+		root = new TreeNode;
+		root->data = item;
+		root->lThread = true;
+		root->rThread = true;
+		// thread(root, item);
+	}
+	else
+	{
+
+		if (item < tr->data)
+		{
+			if (!tr->lThread)
+			{
+				insert(tr->leftChild, item);
+			}
+			else
+			{
+				TreeNode *nNode = new TreeNode;
+				nNode->data = item;
+				// thread after
+				tr->lThread = false;
+				thread(tr, nNode, item);
+			}
+		}
+		else
+		{
+			if (!tr->rThread)
+			{
+				insert(tr->rightChild, item);
+			}
+			else
+			{
+				TreeNode *nNode = new TreeNode;
+				nNode->data = item;
+				// thread after
+				tr->rThread = false;
+				thread(tr, nNode, item);
+			}
+		}
+	}
+}
+
+void ThreadedBSTree::thread(TreeNode *tr, TreeNode *nNode, int item)
+{
+	
+	TreeNode *curr = nNode;
+	TreeNode *ptr = tr;
+	if (item < ptr->data)
+	{
+		if (ptr->lThread == false)
+		{
+			curr->rightChild = ptr;
+			curr->leftChild = ptr->leftChild;
+			ptr->leftChild = curr;
+		}
+	}
+	else if (item > ptr->data)
+	{
+		if (ptr->rThread == false)
+		{
+			curr->rightChild = ptr->rightChild;
+			curr->leftChild = ptr;
+			ptr->rightChild = curr;
+		}
+	}
+}
+void ThreadedBSTree::display()
+{
+	cout << "Preorder: ";
+	// preorderTraverse(root);
+	cout << "\nInOrder: ";
+	// inorderTraverse(root);
+	cout << "\nPostorder: ";
+	// postorderTraverse(root);
+	cout << "\nInOrder TBST: ";
+	displayTBSTreeInOrder(root);
+}
+
+bool ThreadedBSTree::contains(const int &anEntry) const
+{
+	if (root == nullptr)
+	{
+		return false;
+	}
+	TreeNode *temp = root;
+	while (temp != nullptr)
+	{
+		if (anEntry == temp->data)
+		{
+			return true;
+		}
+		if (anEntry < temp->data)
+		{
+			if (!temp->lThread)
+			{
+				temp = temp->leftChild;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else if (anEntry > temp->data)
+		{
+			if (!temp->rThread)
+			{
+				temp = temp->rightChild;
+			}
+			else
+			{
+				return false;
+			}
+		}
+	}
+	return false;
+}
+
+TreeNode *ThreadedBSTree::getleftMostNode()
+{
+	TreeNode *temp = root;
+	while (!temp->lThread)
+	{
+		cout << "1\n";
+		temp = temp->leftChild;
+	}
+	return temp;
+}
+
+//------------------------------------------------------------
+// Public Traversals Section.
+//------------------------------------------------------------
+
+void ThreadedBSTree::inorderTraverse(TreeNode *root)
+{
+	//TreeNode* root = root;
+	if (root == nullptr)
+	{
+		return;
+	}
+	inorderTraverse(root->leftChild);
+	cout << root->data << " ";
+	inorderTraverse(root->rightChild);
+}
+
+void ThreadedBSTree::displayTBSTreeInOrder(TreeNode *root)
+{
+	TreeNode *curr = getleftMostNode();
+	while (curr != nullptr)
+	{
+		cout << curr->data << " ";
+		curr = curr->rightChild;
+	}
+	//displayTBSTreeInOrder(root->rightChild);
+}
