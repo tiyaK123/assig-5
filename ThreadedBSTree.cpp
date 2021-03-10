@@ -15,8 +15,16 @@ ThreadedBSTree::ThreadedBSTree()
 }
 ThreadedBSTree::~ThreadedBSTree()
 {
-	//clear(root);
+	clear(root);
 }
+
+ThreadedBSTree::ThreadedBSTree(const ThreadedBSTree &other)
+{
+	// root = other.root;
+	// copyTbst(other.root);
+	helper(this->root, other.root);
+}
+
 TreeNode *ThreadedBSTree::copyTbst(TreeNode *other)
 {
 	if (other == NULL)
@@ -32,20 +40,70 @@ TreeNode *ThreadedBSTree::copyTbst(TreeNode *other)
 		return node;
 	}
 }
-void ThreadedBSTree::helper(TreeNode *node, TreeNode *otherNode)
+void ThreadedBSTree::helper(TreeNode *&to, const TreeNode *from)
 {
+	if (from == NULL)
+	{
+		to = nullptr;
+	}
+	else
+	{
+		to = new TreeNode;
+		to->data = from->data;
+		helper(to->leftChild, from->leftChild);
+		helper(to->rightChild, from->rightChild);
+	}
 }
+
 void ThreadedBSTree::clear(TreeNode *root)
 {
 	TreeNode *node = root;
-	if (root)
+	if (root == nullptr)
 	{
-		clear(node->leftChild);
-		clear(node->rightChild);
-		delete node;
-		node = NULL;
+		return;
 	}
+	if (node->lThread && node->rThread)
+	{
+		delete root;
+		root = NULL;
+		return;
+	}
+	/* if (node->lThread)
+	{
+		delete root;
+		root = NULL;
+		return;
+	}
+	if (node->rThread)
+	{
+		delete root;
+		root = NULL;
+		return;
+	} */
+
+	clear(node->leftChild);
+	clear(node->rightChild);
+	delete node;
+	node = NULL;
+
+	/* 	TreeNode *node = root;
+	while (node != NULL)
+	{
+		if (node->leftChild && !node->lThread)
+		{
+			root = root->leftChild;
+			delete node;
+			node = NULL;
+		}
+		if (node->rightChild && !node->rThread)
+		{
+			root = root->rightChild;
+			delete node;
+			node = NULL;
+		}
+	} */
 }
+
 TreeNode::TreeNode()
 {
 	leftChild = nullptr;
@@ -99,8 +157,15 @@ TreeNode *ThreadedBSTree::findNode(TreeNode *root, int &item)
 	return nullptr;
 }
 
-void ThreadedBSTree::removeEven()
+void ThreadedBSTree::removeEven(int number)
 {
+	for (int i = 1; i <= number; i++)
+	{
+		if (i % 2 == 0)
+		{
+			remove(i);
+		}
+	}
 }
 
 bool ThreadedBSTree::remove(int item)

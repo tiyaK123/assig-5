@@ -46,10 +46,11 @@ private:
 public:
    ThreadedBSTree();
    ~ThreadedBSTree();
+   ThreadedBSTree(const ThreadedBSTree &tbst);
    TreeNode *copyTbst(TreeNode *other);
-   void helper(TreeNode *node, TreeNode *otherNode);
+   void helper(TreeNode *&node, const TreeNode *therNode);
    TreeNode *findNode(TreeNode *root, int &item);
-   void removeEven();
+   void removeEven(int number);
    bool remove(int item);
    bool removeSearch(TreeNode *parent, TreeNode *tr, int &item);
    void removeNode(TreeNode *node, TreeNode *parent);
