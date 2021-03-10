@@ -17,20 +17,23 @@ ThreadedBSTree::~ThreadedBSTree()
 {
 	//clear(root);
 }
- TreeNode* ThreadedBSTree::copyTbst(TreeNode *other){
-	if(other == NULL){
+TreeNode *ThreadedBSTree::copyTbst(TreeNode *other)
+{
+	if (other == NULL)
+	{
 		return nullptr;
-	} else{
-		TreeNode* node = new TreeNode;
+	}
+	else
+	{
+		TreeNode *node = new TreeNode;
 		node->data = other->data;
 		other->leftChild = copyTbst(node->leftChild);
 		other->rightChild = copyTbst(node->rightChild);
 		return node;
 	}
-
 }
-void ThreadedBSTree::helper(TreeNode *node, TreeNode *otherNode){
-	
+void ThreadedBSTree::helper(TreeNode *node, TreeNode *otherNode)
+{
 }
 void ThreadedBSTree::clear(TreeNode *root)
 {
@@ -96,9 +99,146 @@ TreeNode *ThreadedBSTree::findNode(TreeNode *root, int &item)
 	return nullptr;
 }
 
+void ThreadedBSTree::removeEven()
+{
+}
+
 bool ThreadedBSTree::remove(int item)
 {
-	return true;
+	TreeNode *parent = NULL;
+	return removeSearch(parent, root, item);
+}
+
+bool ThreadedBSTree::removeSearch(TreeNode *parent, TreeNode *tr, int &item)
+{
+	// TreeNode *parent;
+	if (tr == nullptr)
+	{
+		root = nullptr;
+		return false;
+	}
+	else
+	{
+		if (tr->data == item)
+		{
+			removeNode(tr, parent);
+			return true;
+		}
+		parent = tr;
+		if (item < tr->data)
+		{
+			tr = tr->leftChild;
+			removeSearch(parent, tr, item);
+		}
+		else
+		{
+			tr = tr->rightChild;
+			removeSearch(parent, tr, item);
+		}
+	}
+	return false;
+}
+
+void ThreadedBSTree::removeNode(TreeNode *node, TreeNode *parent)
+{
+	if (node->lThread && node->rThread)
+	{
+		//node has no child
+		if (parent == nullptr)
+		{
+			root = nullptr;
+		}
+		else if (node == parent->leftChild)
+		{
+			parent->lThread = true;
+			parent->leftChild = node->leftChild;
+		}
+		else
+		{
+			parent->rThread = true;
+			parent->rightChild = node->rightChild;
+		}
+		delete node;
+		node = nullptr;
+		//return node;
+	}
+	else if (!node->lThread && !node->rThread)
+	{
+		// node has two child
+		int newNodeValue;
+		TreeNode *parentSucc = node;	   //parent Successor]
+		TreeNode *succ = node->rightChild; //successor
+		newNodeValue = removeLeftMostNode(node->rightChild);
+		node->data = newNodeValue; // Put replacement value in node N
+		removeNode(succ, parentSucc);
+		//return node;
+	}
+	else
+	{
+		// node has only one child
+		TreeNode *nodeToConnect;
+		TreeNode *threadNode;
+		if (node->rThread)
+		{
+			nodeToConnect = node->leftChild;
+		}
+		else
+		{
+			nodeToConnect = node->rightChild;
+		}
+		// connect parent and node->nextNode
+		TreeNode *ptrThreadNode; // the Node that point to delete node threadNode
+		if (parent == NULL)
+		{
+			root = nodeToConnect;
+		}
+		else if (node == parent->leftChild) // Node is left child of its parent.
+		{
+			parent->leftChild = nodeToConnect;
+		}
+		else
+		{ // Node is right Child of its parents
+			parent->rightChild = nodeToConnect;
+		}
+
+		if (node->lThread)
+		{
+			threadNode = node->leftChild;
+			ptrThreadNode = nodeToConnect;
+			while (!ptrThreadNode->lThread)
+			{
+				ptrThreadNode = ptrThreadNode->leftChild;
+			}
+			ptrThreadNode->leftChild = threadNode;
+		}
+		else
+		{
+			threadNode = node->rightChild;
+			ptrThreadNode = nodeToConnect;
+			while (!ptrThreadNode->rThread)
+			{
+				ptrThreadNode = ptrThreadNode->rightChild;
+			}
+			ptrThreadNode->rightChild = threadNode;
+		}
+
+		delete node;
+		node = nullptr;
+		//return nodeToConnect;
+	}
+}
+
+int ThreadedBSTree::removeLeftMostNode(TreeNode *node)
+{
+	if (node->lThread)
+	{
+		// replaceNodeData = node->data;
+		return node->data;
+	}
+	else
+	{
+		return removeLeftMostNode(node->leftChild);
+	}
 }
 
 // this method is for reading input number from user
@@ -117,35 +257,39 @@ void ThreadedBSTree::enterNumber(int num)
 	}
 }
 
-//need help to work on message from Tiffany
-void ThreadedBSTree::add(vector <int> v, int nums,int low, int high){
-  if(low > high) {
-            return;
-        }
-        int mid = low + (high - low)/2;
-        int check = v[mid];
-        
-        insert(root, check);
-		cout << check << " ";
-        add(v,nums, low, mid - 1);
-       
-        add(v,nums, mid + 1, high);
-     
-}
-void ThreadedBSTree::numbers( int num){
-  vector <int> v;
-  int x = 1;
-  for(int i = 0; i < num; i++){
+//
+void ThreadedBSTree::add(vector<int> v, int nums, int low, int high)
+{
+	if (low > high)
+	{
+		return;
+	}
+	int mid = low + (high - low) / 2;
+	int check = v[mid];
 
-    v.push_back(x);
-    x++;
-  }
-  int end = v.size() - 1;
-  cout << end << "-end\n";
-  add(v,num,0,end);
+	insert(root, check);
+	cout << check << " ";
+	add(v, nums, low, mid - 1);
+
+	add(v, nums, mid + 1, high);
+}
+void ThreadedBSTree::numbers(int num)
+{
+	vector<int> v;
+	int x = 1;
+	for (int i = 0; i < num; i++)
+	{
+
+		v.push_back(x);
+		x++;
+	}
+	int end = v.size() - 1;
+	cout << end << "-end\n";
+	add(v, num, 0, end);
 }
 //
-void ThreadedBSTree::insert(TreeNode *tr, int item){
+void ThreadedBSTree::insert(TreeNode *tr, int item)
+{
 	if (root == nullptr)
 	{
 		root = new TreeNode;
@@ -192,7 +336,7 @@ void ThreadedBSTree::insert(TreeNode *tr, int item){
 
 void ThreadedBSTree::thread(TreeNode *tr, TreeNode *nNode, int item)
 {
-	
+
 	TreeNode *curr = nNode;
 	TreeNode *ptr = tr;
 	if (item < ptr->data)
