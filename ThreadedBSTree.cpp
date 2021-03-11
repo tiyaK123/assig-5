@@ -44,26 +44,34 @@ ThreadedBSTree::ThreadedBSTree(const ThreadedBSTree &other)
 {
 	if (other.root == nullptr)
 	{
-		return;
+		this->root = new TreeNode;
 	}
-	this->root = new TreeNode(other.root->data, other.root->leftChild, other.root->rightChild);
-	TreeNode *copy_to = this->root;
-	TreeNode *copy_from = other.root;
-	while (copy_from->leftChild != nullptr && !copy_from->lThread)
+	else
 	{
-		// root->leftChild = new TreeNode(other.root->data, other.root->leftChild, other.root->rightChild);
-		// root->leftChild = other.root->leftChild;
-		copy_from = copy_from->leftChild;
-		// copy_to->leftChild = new TreeNode(copy_from->data, copy_from->leftChild, copy_from->rightChild);
-		copy_to = copy_to->leftChild;
-	}
-	while (copy_from->rightChild != nullptr && !copy_from->rThread)
-	{
-		// root->rightChild = new TreeNode;
-		// root->rightChild = other.root->rightChild;
-		copy_from = copy_from->rightChild;
-		copy_to->rightChild = new TreeNode(copy_from->data, copy_from->leftChild, copy_from->rightChild);
-		copy_to = copy_to->rightChild;
+		this->root = new TreeNode(other.root->data);
+		TreeNode *copy_from = other.root;
+		while (copy_from->lThread == false)
+		{
+			copy_from = copy_from->leftChild;
+		}
+		while (copy_from->rightChild != NULL)
+		{
+			if (copy_from->rThread == true)
+			{
+				copy_from = copy_from->rightChild;
+				insert(this->root, copy_from->data);
+			}
+			else
+			{
+				copy_from = copy_from->rightChild;
+				insert(this->root, copy_from->data);
+				while (copy_from->lThread == false)
+				{
+					copy_from = copy_from->leftChild;
+					insert(this->root, copy_from->data);
+				}
+			}
+		}
 	}
 }
 
@@ -371,7 +379,10 @@ void ThreadedBSTree::insert(TreeNode *tr, int item)
 	}
 	else
 	{
-
+		if (contains(item))
+		{
+			return;
+		}
 		if (item < tr->data)
 		{
 			if (!tr->lThread)
