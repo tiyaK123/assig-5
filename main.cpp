@@ -14,12 +14,14 @@ void test()
     //tree.display();
     ThreadedBSTree copyTree(tree);
     tree.display();
+    cout << "copyTree: " << endl;
     copyTree.display();
     // tree.removeEven(10);
     // tree.remove(5);
-    tree.display();
-    cout << "copyTree: " << endl;
-    copyTree.display();
+    //tree.display();
+    cout << endl;
+    // cout << "copyTree: after delete: " << endl;
+    // copyTree.display();
 }
 
 int main()

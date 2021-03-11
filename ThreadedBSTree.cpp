@@ -54,11 +54,9 @@ ThreadedBSTree::ThreadedBSTree(const ThreadedBSTree &other)
 		// root->leftChild = new TreeNode(other.root->data, other.root->leftChild, other.root->rightChild);
 		// root->leftChild = other.root->leftChild;
 		copy_from = copy_from->leftChild;
-		copy_to->leftChild = new TreeNode(copy_from->data, copy_from->leftChild, copy_from->rightChild);
+		// copy_to->leftChild = new TreeNode(copy_from->data, copy_from->leftChild, copy_from->rightChild);
 		copy_to = copy_to->leftChild;
 	}
-	copy_to = this->root;
-	copy_from = other.root;
 	while (copy_from->rightChild != nullptr && !copy_from->rThread)
 	{
 		// root->rightChild = new TreeNode;
