@@ -44,7 +44,7 @@ ThreadedBSTree::ThreadedBSTree(const ThreadedBSTree &other)
 {
 	if (other.root == nullptr)
 	{
-		this->root = new TreeNode;
+		this->root = /* new TreeNode */ nullptr;
 	}
 	else
 	{
