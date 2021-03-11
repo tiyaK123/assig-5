@@ -5,10 +5,32 @@
 #include <vector>
 using namespace std;
 
-// ostream &operator<<(std::ostream &out, const ThreadedBSTree &bts)
-// {
-// 	return out;
-// }
+/*  ostream &operator<<(std::ostream &out, const ThreadedBSTree &bts)
+ {
+	 TreeNode *curr = bts.root;
+	 while (curr->lThread == false)
+	 {
+		 curr = curr->leftChild;
+	 }
+
+	 while (curr != nullptr)
+	 {
+		 out << curr->data << " ";
+		 if (curr->rThread == true)
+		 {
+			 curr = curr->rightChild;
+		 }
+		 else
+		 {
+			 curr = curr->rightChild;
+			 while (curr->lThread == false)
+			 {
+				 curr = curr->leftChild;
+			 }
+		 }
+	 }
+	 return out;
+ } */
 ThreadedBSTree::ThreadedBSTree()
 {
 	root = nullptr;
@@ -20,26 +42,33 @@ ThreadedBSTree::~ThreadedBSTree()
 
 ThreadedBSTree::ThreadedBSTree(const ThreadedBSTree &other)
 {
-	// root = other.root;
-	// copyTbst(other.root);
-	helper(this->root, other.root);
+	if (other.root == nullptr)
+	{
+		return;
+	}
+	this->root = new TreeNode(other.root->data, other.root->leftChild, other.root->rightChild);
+	TreeNode *copy_to = this->root;
+	TreeNode *copy_from = other.root;
+	while (copy_from->leftChild != nullptr && !copy_from->lThread)
+	{
+		// root->leftChild = new TreeNode(other.root->data, other.root->leftChild, other.root->rightChild);
+		// root->leftChild = other.root->leftChild;
+		copy_from = copy_from->leftChild;
+		copy_to->leftChild = new TreeNode(copy_from->data, copy_from->leftChild, copy_from->rightChild);
+		copy_to = copy_to->leftChild;
+	}
+	copy_to = this->root;
+	copy_from = other.root;
+	while (copy_from->rightChild != nullptr && !copy_from->rThread)
+	{
+		// root->rightChild = new TreeNode;
+		// root->rightChild = other.root->rightChild;
+		copy_from = copy_from->rightChild;
+		copy_to->rightChild = new TreeNode(copy_from->data, copy_from->leftChild, copy_from->rightChild);
+		copy_to = copy_to->rightChild;
+	}
 }
 
-TreeNode *ThreadedBSTree::copyTbst(TreeNode *other)
-{
-	if (other == NULL)
-	{
-		return nullptr;
-	}
-	else
-	{
-		TreeNode *node = new TreeNode;
-		node->data = other->data;
-		other->leftChild = copyTbst(node->leftChild);
-		other->rightChild = copyTbst(node->rightChild);
-		return node;
-	}
-}
 void ThreadedBSTree::helper(TreeNode *&to, const TreeNode *from)
 {
 	if (from == NULL)
@@ -57,51 +86,30 @@ void ThreadedBSTree::helper(TreeNode *&to, const TreeNode *from)
 
 void ThreadedBSTree::clear(TreeNode *root)
 {
-	TreeNode *node = root;
-	if (root == nullptr)
+	TreeNode *curr = root;
+	while (curr->lThread == false)
 	{
-		return;
+		curr = curr->leftChild;
 	}
-	if (node->lThread && node->rThread)
-	{
-		delete root;
-		root = NULL;
-		return;
-	}
-	/* if (node->lThread)
-	{
-		delete root;
-		root = NULL;
-		return;
-	}
-	if (node->rThread)
-	{
-		delete root;
-		root = NULL;
-		return;
-	} */
 
-	clear(node->leftChild);
-	clear(node->rightChild);
-	delete node;
-	node = NULL;
-
-	/* 	TreeNode *node = root;
-	while (node != NULL)
+	while (curr != nullptr)
 	{
-		if (node->leftChild && !node->lThread)
+		TreeNode *del = curr;
+		if (curr->rThread == true)
 		{
-			root = root->leftChild;
-			delete node;
-			node = NULL;
+			curr = curr->rightChild;
 		}
-		if (node->rightChild && !node->rThread)
+		else
 		{
-			root = root->rightChild;
-			delete node;
-			node = NULL;
+			curr = curr->rightChild;
+			while (curr->lThread == false)
+			{
+				curr = curr->leftChild;
+			}
 		}
-	} */
+		delete del;
+		del = NULL;
+	}
 }
 
 TreeNode::TreeNode()
@@ -119,12 +127,12 @@ TreeNode::TreeNode(const int &nodeItem, TreeNode *left, TreeNode *right)
 }
 TreeNode::TreeNode(int item)
 {
-	TreeNode *node = new TreeNode();
-	node->data = item;
-	node->leftChild = nullptr;
-	node->rightChild = nullptr;
-	node->lThread = true;
-	node->rThread = true;
+	// TreeNode *node = new TreeNode();
+	data = item;
+	leftChild = nullptr;
+	rightChild = nullptr;
+	lThread = true;
+	rThread = true;
 }
 
 // retrieve Node

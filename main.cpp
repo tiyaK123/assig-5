@@ -9,11 +9,17 @@ void test()
     tree.numbers(10);
     // tree.add(15);
     // tree.add(20);
+    // tree.display();
+    // tree.removeEven(10);
+    //tree.display();
+    ThreadedBSTree copyTree(tree);
     tree.display();
-    tree.removeEven(10);
+    copyTree.display();
+    // tree.removeEven(10);
+    // tree.remove(5);
     tree.display();
-    // ThreadedBSTree copyTree (tree);
-    // copyTree.display();
+    cout << "copyTree: " << endl;
+    copyTree.display();
 }
 
 int main()

@@ -33,6 +33,8 @@ public:
    TreeNode();
    TreeNode(int data);
    TreeNode(const int &nodeItem, TreeNode *left, TreeNode *right);
+   /* int getNodedata() const;
+   Tree */
    //TreeNode* add(TreeNode* root, int item);
 };
 class ThreadedBSTree
