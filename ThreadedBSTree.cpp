@@ -54,6 +54,7 @@ ThreadedBSTree::ThreadedBSTree(const ThreadedBSTree &other)
 		{
 			copy_from = copy_from->leftChild;
 		}
+		insert(this->root, copy_from->data);
 		while (copy_from->rightChild != NULL)
 		{
 			if (copy_from->rThread == true)
