@@ -1,20 +1,27 @@
-Thread Binary Serach Tree
----------------------------------
-Discribtion + what we tested 
-Group - 3
----------------------------------
-Ting-Shiuan Chen and Tiya Adugna
-----------------------------------
-- we did mostly pair programming 
-- we used github to work on project 
-- we were able to work on it constantly bc we are in df time zone...
-- 
-#Contributor:
 
-Ting-Shiuan Chen: - 
+Group – 3:
+---------------------- 
+ Ting-Shiuan Chen 
+ Tiya Adugna
+----------------------
+ Threaded binary trees 
+----------------------
+ Threaded binary trees is to makes traversal faster (O(n)) and do it without stack and recursion. A binary tree is made threaded by making both left and right NULL pointers are made to point to in order predecessor and inorder successor respectively.
 
-implement add()
-Tiya Adugna: - constructors 
+Test: 
+----------------------
+Implements ThreadedBSTree and inorder traversal. The program takes a single command-line argument: an integer, n, specifying the number of nodes to create in the tree. The program then creates a ThreadedBSTree with KeyType being int and insert the numbers 1,2,…,n into that container in NON-INCREMENTAL order. It then makes a copy of that tree and deletes all the even numbers from the copy. Finally, it uses iterators to perform an inorder traversal of each tree, outputting to cout each node’s contents.
+ 
+Contribution
+----------------------
+For assignment - 5, our group was able to contribute to the project by pair programming. We used GitHub to update our program and manage to keep what we have changed individually and update our code. For this project, we were able to work on it consistently because we both were in a different time zone, so it helped us significantly. We both manage to meet up then discuss the problems and try to figure out some of the issues that we encountered.  
 
+-----------------------------------------------------------------------------
+Ting-Shiuan Chen 							Tiya Adugna
+-----------------------------------------------------------------------------
+-	design of header file				-   design of header file
+-	insert methods						-   add method and helper method 
+-	remove method 					    -   destructor 
+-	copy constructor					-   copy constructor
+-	contains method 					-   balancing tree 
 
-#./clang-tidy
