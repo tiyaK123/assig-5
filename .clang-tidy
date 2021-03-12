@@ -6,9 +6,9 @@
 #
 ---
 # See https://clang.llvm.org/extra/clang-tidy/#using-clang-tidy for all possible checks
-Checks: '*,-fuchsia-*,-cppcoreguidelines-owning-memory,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-google-build-using-namespace,-hicpp-no-array-decay,-modernize-use-trailing-return-type,-llvm-header-guard,-cert-err60-cpp,-cppcoreguidelines-pro-bounds-constant-array-index,-google-global-names-in-headers'
+Checks: '*, -llvm-header-guard*,-clang-analyzer-cplusplus*, -google-build-using-namespace*'
 
-WarningsAsErrors:  '*'
+WarningsAsErrors:  '-*'
 HeaderFilterRegex: '.*'
 
 CheckOptions:
@@ -34,7 +34,7 @@ CheckOptions:
 ########################################################################
 # Disabled checks
 ########################################################################
-# -fuchsia-*,
+# -*fuchsia*,
 #     Checks associated with fuchsia operating system
 # -cppcoreguidelines-owning-memory,
 #      Using and learning about raw pointers, not type-based semantics of gsl::owner<T*>
@@ -56,5 +56,7 @@ CheckOptions:
 #      Want to use array[index] without having to use gsl::at()
 # -google-global-names-in-headers
 #      Readbility, want to have "using namespace std;" in headers as well
-#-clang-analyzer-cplusplus.NewDelete
-#-clang-analyzer-cplusplus.NewDeleteLeaks
+# -clang-analyzer-cplusplus.NewDelete
+# -clang-analyzer-cplusplus.NewDeleteLeaks
+# -google-explicit-constructor,-warnings-as-errors
+# -google-global-names-in-headers
