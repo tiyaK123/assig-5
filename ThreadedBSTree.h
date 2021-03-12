@@ -1,4 +1,3 @@
-
 //
 //created by Ting-Shiuan Chen and Tiya Adugna on 3/1/21
 //
@@ -21,7 +20,7 @@ class ThreadedBSTree;
 class TreeNode
 {
    friend class ThreadedBSTree;
-   //friend std::ostream& operator<<(std::ostream& out, const TreeNode& bts);
+   friend std::ostream& operator<<(std::ostream& out, const ThreadedBSTree &bts);
 private:
    int data;
    TreeNode *leftChild;
@@ -33,10 +32,9 @@ public:
    TreeNode();
    TreeNode(int data);
    TreeNode(const int &nodeItem, TreeNode *left, TreeNode *right);
-   /* int getNodedata() const;
-   Tree */
-   //TreeNode* add(TreeNode* root, int item);
+   
 };
+
 class ThreadedBSTree
 {
    friend class TreeNode;
@@ -44,31 +42,27 @@ class ThreadedBSTree
 
 private:
    TreeNode *root;
-
+   void clear(TreeNode *root);
+   bool removeSearch(TreeNode *parent, TreeNode *tr, int &item);
+   void removeNode(TreeNode *node, TreeNode *parent);
+   int removeLeftMostNode(TreeNode *node);
 public:
    ThreadedBSTree();
    ~ThreadedBSTree();
    ThreadedBSTree(const ThreadedBSTree &tbst);
-   TreeNode *copyTbst(TreeNode *other);
-   void helper(TreeNode *&node, const TreeNode *therNode);
-   TreeNode *findNode(TreeNode *root, int &item);
    void removeEven(int number);
    bool remove(int item);
-   bool removeSearch(TreeNode *parent, TreeNode *tr, int &item);
-   void removeNode(TreeNode *node, TreeNode *parent);
-   int removeLeftMostNode(TreeNode *node);
-   void enterNumber(int num);
-   //void add(int item);                    // for loop for adding n number
-   void insert(TreeNode *root, int item); // insert nuber in Tree
+   void insert(TreeNode *root, int item); 
    void thread(TreeNode *root, TreeNode *newNode, int item);
-   void clear(TreeNode *root);
-   void display();
+/**
+ * returns true if item is in the TBST
+ * pre-con: none
+ * post-con: goes through the TBST and checks if item 
+ * 			 is in tree
+ * **/
    bool contains(const int &item) const;
-   void add(vector<int> v, int nums, int low, int high);
-   void numbers(int num);
-   //------------------------------------------------------------
-   // Public Traversals Section.
-   //------------------------------------------------------------
 
-   void displayTBSTreeInOrder(TreeNode *root); // Thread inordertraversal
+   void add(vector<int> v, int start, int end);
+   void numbers(int num);
+
 };
