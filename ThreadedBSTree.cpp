@@ -6,8 +6,11 @@
  * Threaded Binary Tree  both left and right NULL pointers are made to
  *  point to inorder predecessor and inorder successor respectively.
  *  The threads makes fast accessing ancestors of a node.
- * 
- * Date: Date: 2/23/2021
+ *  It includes the TreeNode class that is created a Node for Threaded BSTree
+ *  class. Also, it includes methods such as remove, add, insert, contains,
+ *  clear, thread, and inorder Traversal for helping to build TBSTree
+ *  and using TBStree.
+ * Date: Date: 2/12/2021
  * Strudent: Ting-Shiuan Chen and Tiya Adugna 
  * **/
 #include "ThreadedBSTree.h"
@@ -187,6 +190,7 @@ bool ThreadedBSTree::remove(int item)
 	{
 		return removeSearch(parent, root, item);
 	}
+	cout << "\n "<< item <<": is not in TBST" << endl;
 	return false;
 }
 
@@ -275,12 +279,14 @@ void ThreadedBSTree::removeNode(TreeNode *node, TreeNode *parent)
 			nodeToConnect = node->rightChild;
 		}
 		// connect parent and node->nextNode
-		TreeNode *ptrThreadNode; // the Node that point to delete node threadNode
+		// the Node that point to delete node threadNode
+		TreeNode *ptrThreadNode; 
 		if (parent == nullptr)
 		{
 			root = nodeToConnect;
 		}
-		else if (node == parent->leftChild) // Node is left child of its parent.
+		// Node is left child of its parent.
+		else if (node == parent->leftChild) 
 		{
 			parent->leftChild = nodeToConnect;
 		}
