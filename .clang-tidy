@@ -6,10 +6,10 @@
 #
 ---
 # See https://clang.llvm.org/extra/clang-tidy/#using-clang-tidy for all possible checks
-Checks: '*, -llvm-header-guard*,-clang-analyzer-cplusplus*, -google-build-using-namespace*'
+Checks: '*, -llvm-header-guard*, -clang-analyzer-cplusplus*, -google-build-using-namespace*, -google-global-names-in-headers*, -cppcoreguidelines-owning-memory*, -fuchsia*'
 
 WarningsAsErrors:  '-*'
-HeaderFilterRegex: '.*'
+# HeaderFilterRegex: '.*'
 
 CheckOptions:
  - { key: readability-identifier-naming.ClassCase,           value: CamelCase  }

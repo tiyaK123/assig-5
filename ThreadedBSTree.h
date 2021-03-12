@@ -20,7 +20,8 @@ class ThreadedBSTree;
 class TreeNode
 {
    friend class ThreadedBSTree;
-   friend std::ostream& operator<<(std::ostream& out, const ThreadedBSTree &bts);
+   friend ostream &operator<<(ostream &out, const ThreadedBSTree &bts);
+
 private:
    int data;
    TreeNode *leftChild;
@@ -30,31 +31,31 @@ private:
 
 public:
    TreeNode();
-   TreeNode(int data);// NOLINT
+   TreeNode(int data); // NOLINT
    TreeNode(const int &nodeItem, TreeNode *left, TreeNode *right);
-   
 };
 
 class ThreadedBSTree
 {
    friend class TreeNode;
-   friend std::ostream &operator<<(std::ostream &out, const ThreadedBSTree &bts);
+   friend ostream &operator<<(ostream &out, const ThreadedBSTree &bts);
 
 private:
    TreeNode *root;
    void clear(TreeNode *root);
-   bool removeSearch(TreeNode *parent, TreeNode *tr, int &item);
+   bool removeSearch(TreeNode *parent, TreeNode *tr, const int &item);
    void removeNode(TreeNode *node, TreeNode *parent);
    int removeLeftMostNode(TreeNode *node);
+
 public:
    ThreadedBSTree();
    ~ThreadedBSTree();
    ThreadedBSTree(const ThreadedBSTree &other);
    void removeEven(int number);
    bool remove(int item);
-   void insert(TreeNode *tr, int item); 
+   void insert(TreeNode *tr, int item);
    void thread(TreeNode *tr, TreeNode *nNode, int item);
-/**
+   /**
  * returns true if item is in the TBST
  * pre-con: none
  * post-con: goes through the TBST and checks if item 
@@ -65,12 +66,12 @@ public:
    void add(vector<int> v, int start, int end);
    void numbers(int num);
    // Copy assignment operator
-  ThreadedBSTree &operator=(const ThreadedBSTree &other) = delete;
+   ThreadedBSTree &operator=(const ThreadedBSTree &other) = delete;
 
-  // move constructor
-  ThreadedBSTree(ThreadedBSTree &&other) = default;
+   // move constructor
+   ThreadedBSTree(ThreadedBSTree &&other) = default;
 
-  // move assignment operator
-  ThreadedBSTree &operator=(ThreadedBSTree &&other) = delete;
+   // move assignment operator
+   ThreadedBSTree &operator=(ThreadedBSTree &&other) = delete;
 };
 //#endif //ASS5_TBST_H
