@@ -56,3 +56,5 @@ CheckOptions:
 #      Want to use array[index] without having to use gsl::at()
 # -google-global-names-in-headers
 #      Readbility, want to have "using namespace std;" in headers as well
+#-clang-analyzer-cplusplus.NewDelete
+#-clang-analyzer-cplusplus.NewDeleteLeaks
