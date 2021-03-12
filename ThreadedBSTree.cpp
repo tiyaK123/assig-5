@@ -11,9 +11,9 @@
  * Strudent: Ting-Shiuan Chen and Tiya Adugna 
  * **/
 #include "ThreadedBSTree.h"
-#include <iostream>
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 #include <vector>
 using namespace std;
 
@@ -21,21 +21,21 @@ using namespace std;
 ostream &operator<<(std::ostream &out, const ThreadedBSTree &bts)
  {
 	TreeNode *curr = bts.root;
-	 while (curr->lThread == false)
+	 while (!curr->lThread)
 	 {
 		 curr = curr->leftChild;
 	 }
 	 while (curr != nullptr)
 	 {
 		 out << curr->data << " ";
-		 if (curr->rThread == true)
+		 if (curr->rThread)
 		 {
 			 curr = curr->rightChild;
 		 }
 		 else
 		 {
 			 curr = curr->rightChild;
-			 while (curr->lThread == false)
+			 while (!curr->lThread)
 			 {
 				 curr = curr->leftChild;
 			 }
@@ -67,27 +67,27 @@ ThreadedBSTree::ThreadedBSTree(const ThreadedBSTree &other)
 	else
 	{
 		this->root = new TreeNode(other.root->data);
-		TreeNode *copy_from = other.root;
-		while (copy_from->lThread == false)
+		TreeNode *copyFrom = other.root;
+		while (!copyFrom->lThread)
 		{
-			copy_from = copy_from->leftChild;
+			copyFrom = copyFrom->leftChild;
 		}
-		insert(this->root, copy_from->data);
-		while (copy_from->rightChild != NULL)
+		insert(this->root, copyFrom->data);
+		while (copyFrom->rightChild != nullptr)
 		{
-			if (copy_from->rThread == true)
+			if (copyFrom->rThread)
 			{
-				copy_from = copy_from->rightChild;
-				insert(this->root, copy_from->data);
+				copyFrom = copyFrom->rightChild;
+				insert(this->root, copyFrom->data);
 			}
 			else
 			{
-				copy_from = copy_from->rightChild;
-				insert(this->root, copy_from->data);
-				while (copy_from->lThread == false)
+				copyFrom = copyFrom->rightChild;
+				insert(this->root, copyFrom->data);
+				while (!copyFrom->lThread)
 				{
-					copy_from = copy_from->leftChild;
-					insert(this->root, copy_from->data);
+					copyFrom = copyFrom->leftChild;
+					insert(this->root, copyFrom->data);
 				}
 			}
 		}
@@ -98,7 +98,7 @@ ThreadedBSTree::ThreadedBSTree(const ThreadedBSTree &other)
 void ThreadedBSTree::clear(TreeNode *root)
 {
 	TreeNode *curr = root;
-	while (curr->lThread == false)
+	while (!curr->lThread)
 	{
 		curr = curr->leftChild;
 	}
@@ -106,20 +106,20 @@ void ThreadedBSTree::clear(TreeNode *root)
 	while (curr != nullptr)
 	{
 		TreeNode *del = curr;
-		if (curr->rThread == true)
+		if (curr->rThread)
 		{
 			curr = curr->rightChild;
 		}
 		else
 		{
 			curr = curr->rightChild;
-			while (curr->lThread == false)
+			while (!curr->lThread)
 			{
 				curr = curr->leftChild;
 			}
 		}
 		delete del;
-		del = NULL;
+		del = nullptr;
 	}
 }
 
@@ -177,7 +177,7 @@ void ThreadedBSTree::removeEven(int number)
  * **/ 
 bool ThreadedBSTree::remove(int item)
 {
-	TreeNode *parent = NULL;
+	TreeNode *parent = nullptr;
 	if(contains(item))
 	{
 		return removeSearch(parent, root, item);
@@ -272,7 +272,7 @@ void ThreadedBSTree::removeNode(TreeNode *node, TreeNode *parent)
 		}
 		// connect parent and node->nextNode
 		TreeNode *ptrThreadNode; // the Node that point to delete node threadNode
-		if (parent == NULL)
+		if (parent == nullptr)
 		{
 			root = nodeToConnect;
 		}
@@ -396,7 +396,7 @@ void ThreadedBSTree::insert(TreeNode *tr, int item)
 			}
 			else
 			{
-				TreeNode *nNode = new TreeNode;
+				auto *nNode = new TreeNode;
 				nNode->data = item;
 				tr->lThread = false;
 				thread(tr, nNode, item);
@@ -410,7 +410,7 @@ void ThreadedBSTree::insert(TreeNode *tr, int item)
 			}
 			else
 			{
-				TreeNode *nNode = new TreeNode;
+				auto *nNode = new TreeNode;
 				nNode->data = item;
 				tr->rThread = false;
 				thread(tr, nNode, item);
@@ -431,7 +431,7 @@ void ThreadedBSTree::thread(TreeNode *tr, TreeNode *nNode, int item)
 	TreeNode *ptr = tr;
 	if (item < ptr->data)
 	{
-		if (ptr->lThread == false)
+		if (!ptr->lThread)
 		{
 			curr->rightChild = ptr;
 			curr->leftChild = ptr->leftChild;
@@ -440,7 +440,7 @@ void ThreadedBSTree::thread(TreeNode *tr, TreeNode *nNode, int item)
 	}
 	else if (item > ptr->data)
 	{
-		if (ptr->rThread == false)
+		if (!ptr->rThread)
 		{
 			curr->rightChild = ptr->rightChild;
 			curr->leftChild = ptr;
