@@ -6,7 +6,7 @@
 #
 ---
 # See https://clang.llvm.org/extra/clang-tidy/#using-clang-tidy for all possible checks
-Checks: '*, -llvm-header-guard*, -clang-analyzer-cplusplus*, -google-build-using-namespace*, -google-global-names-in-headers*, -cppcoreguidelines-owning-memory*, -fuchsia*'
+Checks: '*, -llvm-header-guard*, -clang-analyzer-cplusplus*, -google-build-using-namespace*, -google-global-names-in-headers*, -cppcoreguidelines-owning-memory*, -fuchsia*,-readability-else-after-return*.-cppcoreguidelines-pro-type-member-init*,-cppcoreguidelines-pro-type-member-init*'
 
 WarningsAsErrors:  '-*'
 # HeaderFilterRegex: '.*'
