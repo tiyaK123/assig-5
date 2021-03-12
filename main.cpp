@@ -1,27 +1,26 @@
 #include "ThreadedBSTree.h"
+#include <cassert>
 #include <iostream>
+
 using namespace std;
 
 void test()
 {
     ThreadedBSTree tree;
-    // list of data :{1, 5, 8, 11, 15, 18, 20, 23, 26, 28, 30}
-    tree.numbers(10);
-    // tree.add(15);
-    // tree.add(20);
-    // tree.display();
-    // tree.removeEven(10);
-    // tree.display();
-    ThreadedBSTree copyTree(tree);
-    tree.display();
-    cout << "copyTree: " << endl;
-    copyTree.display();
-    copyTree.removeEven(10);
-    // tree.remove(9);
-    tree.display();
-    cout << endl;
-    cout << "copyTree: after delete: " << endl;
-    copyTree.display();
+    tree.numbers(20);
+    cout << "\n" << tree;
+    tree.remove(2);
+   //tree.removeEven(10);
+    tree.remove(2);
+    //tree.remove(4);
+    //tree.display();
+    cout << "\n" << tree;
+    cout << "\n----------------------------" << endl;
+    ThreadedBSTree copyTree (tree);
+    copyTree.remove(1);
+    //copyTree.display();
+    cout << "contains test: " << copyTree.contains(5) << endl;
+    cout<< "\n" << copyTree;
 }
 
 int main()
@@ -31,7 +30,7 @@ int main()
     //TreeNode* root = nullptr;
     //bst->display();
     //bst.preorderTraverse(root);
-    cout << endl;
+    cout << "----------------------------"<<endl;
     //inorderTraverse(root);
     // cout << endl;
     // bst.postorderTraverse(root);
