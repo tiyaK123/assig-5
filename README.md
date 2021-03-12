@@ -1,8 +1,8 @@
 
 Group – 3:
 ---------------------- 
- Ting-Shiuan Chen 
- Tiya Adugna
+ - Ting-Shiuan Chen 
+ - Tiya Adugna
 
  Threaded binary trees 
 ----------------------
