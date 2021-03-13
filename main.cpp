@@ -22,14 +22,14 @@ using namespace std;
 void test()
 {
     ThreadedBSTree tree;
-    int num = 11;
+    int num = 20;
     int num1 = 5;
     tree.numbers(num);
     cout << " Inorder traversal: " << tree << endl;
     tree.removeEven(num);
     cout << " Remove even: " << tree << endl;
-    if(tree.contains(num1)){
-        cout <<  " Contains test: " << num1 << endl;
+    if (tree.contains(num1)) {
+        cout << " Contains test: " << num1 << endl;
     }
     
 }
@@ -38,24 +38,26 @@ void test()
 void test2()
 {
     ThreadedBSTree tree;
-    ThreadedBSTree copyTree (tree);
     int num = 11;
     int num1 = 5;
     tree.numbers(num);
-    cout << " Inorder traversal: " << copyTree << endl;
+    ThreadedBSTree copyTree(tree);
+    cout << " Inorder traversal (for tree): " << tree << endl;
+    cout << " Inorder traversal (for copy tree): " << copyTree << endl;
     copyTree.removeEven(num);
-    cout << " Remove even: " <<copyTree<< endl;
-    if(copyTree.contains(num1)){
+    cout << " remove even (for tree): " << tree << endl;
+    cout << " Remove even (for copy tree): " << copyTree << endl;
+    if (copyTree.contains(num1)) {
         cout << " Contains test: " << num1 << endl;
     }
-    
- }
+}
+
 int main()
 {
-     cout << "\nTest 1" << endl;
-     test();
-     cout << "\n----------------------------\n" << endl;
-     cout << "Test 2" << endl;
-     test();
-     cout << "\n----------------------------\n" << endl;
+    cout << "\nTest 1" << endl;
+    test();
+    cout << "\n----------------------------\n" << endl;
+    cout << "Test 2" << endl;
+    test2();
+    cout << "\n----------------------------\n" << endl;
 }
