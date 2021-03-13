@@ -28,10 +28,10 @@ void test()
     cout << " Inorder traversal: " << tree << endl;
     tree.removeEven(num);
     cout << " Remove even: " << tree << endl;
-    if (tree.contains(num1)) {
+    if (tree.contains(num1))
+    {
         cout << " Contains test: " << num1 << endl;
     }
-    
 }
 
 // Prints inorder traversal tests copy constructor, remove, add, and contains
@@ -47,7 +47,8 @@ void test2()
     copyTree.removeEven(num);
     cout << " remove even (for tree): " << tree << endl;
     cout << " Remove even (for copy tree): " << copyTree << endl;
-    if (copyTree.contains(num1)) {
+    if (copyTree.contains(num1))
+    {
         cout << " Contains test: " << num1 << endl;
     }
 }
@@ -56,8 +57,10 @@ int main()
 {
     cout << "\nTest 1" << endl;
     test();
-    cout << "\n----------------------------\n" << endl;
+    cout << "\n----------------------------\n"
+         << endl;
     cout << "Test 2" << endl;
     test2();
-    cout << "\n----------------------------\n" << endl;
+    cout << "\n----------------------------\n"
+         << endl;
 }
